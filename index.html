@@ -1,1 +1,1893 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lexikon Aurora – Deutsches Premium-Wörterbuch</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6366f1;
+      --primary-soft: rgba(99, 102, 241, 0.2);
+      --secondary: #ec4899;
+      --background: #0f172a;
+      --surface: rgba(15, 23, 42, 0.55);
+      --text: #f8fafc;
+      --text-muted: rgba(248, 250, 252, 0.78);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --gradient: radial-gradient(circle at top left, rgba(99, 102, 241, 0.55), transparent 55%),
+        radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.5), transparent 50%);
+    }
 
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--text);
+      background: var(--background);
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before, body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background: var(--gradient);
+      opacity: 0.8;
+      z-index: -2;
+      filter: blur(120px);
+      transform: scale(1.2);
+    }
+
+    body::after {
+      background: radial-gradient(circle at center, rgba(45, 212, 191, 0.35), transparent 60%);
+      mix-blend-mode: screen;
+    }
+
+    .glow-ring {
+      position: absolute;
+      width: 320px;
+      height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236, 72, 153, 0.45), transparent 60%);
+      filter: blur(12px);
+      animation: float 18s ease-in-out infinite;
+      pointer-events: none;
+      opacity: 0.75;
+    }
+
+    .glow-ring:nth-child(1) {
+      top: 10vh;
+      left: -120px;
+      animation-delay: 0s;
+    }
+
+    .glow-ring:nth-child(2) {
+      bottom: 15vh;
+      right: -140px;
+      animation-delay: 4s;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.55), transparent 60%);
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate3d(0, 0, 0); }
+      50% { transform: translate3d(30px, -40px, 0); }
+    }
+
+    header {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      backdrop-filter: blur(14px);
+      background: linear-gradient(120deg, rgba(15, 23, 42, 0.85) 10%, rgba(30, 41, 59, 0.45) 90%);
+      border-bottom: 1px solid var(--glass-border);
+    }
+
+    nav {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.1rem clamp(1rem, 4vw, 2.4rem);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1.5rem;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .brand span {
+      font-family: "Playfair Display", serif;
+      font-size: 1.45rem;
+      color: var(--primary);
+      letter-spacing: normal;
+      text-transform: none;
+    }
+
+    .brand .logo {
+      width: 44px;
+      height: 44px;
+      display: grid;
+      place-items: center;
+      border-radius: 50%;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.95), rgba(236, 72, 153, 0.75));
+      color: white;
+      font-family: "Playfair Display", serif;
+      font-size: 1.2rem;
+      box-shadow: 0 12px 30px rgba(99, 102, 241, 0.25);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: clamp(1rem, 4vw, 2.5rem);
+      font-size: 0.95rem;
+    }
+
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      position: relative;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: "";
+      position: absolute;
+      bottom: -6px;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0);
+      transform-origin: right;
+      transition: transform 0.3s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: white;
+    }
+
+    .nav-links a:hover::after,
+    .nav-links a:focus-visible::after {
+      transform: scaleX(1);
+      transform-origin: left;
+    }
+
+    .cta {
+      padding: 0.65rem 1.4rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.9), rgba(236, 72, 153, 0.78));
+      color: white;
+      font-weight: 600;
+      box-shadow: 0 18px 40px rgba(99, 102, 241, 0.28);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .cta:hover,
+    .cta:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 20px 45px rgba(99, 102, 241, 0.35);
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: clamp(1.5rem, 4vw, 3.5rem) clamp(1rem, 4vw, 2.4rem) 4rem;
+      position: relative;
+    }
+
+    .hero-intro {
+      margin-top: clamp(2rem, 5vw, 4rem);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.5rem, 5vw, 3.2rem);
+      align-items: center;
+    }
+
+    .hero-copy h1 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(2.5rem, 4vw, 3.6rem);
+      line-height: 1.15;
+      margin-bottom: 1rem;
+      color: white;
+      text-shadow: 0 16px 45px rgba(15, 23, 42, 0.9);
+    }
+
+    .hero-copy p {
+      font-size: 1.05rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 540px;
+    }
+
+    .hero-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    .stat-card {
+      background: rgba(15, 23, 42, 0.65);
+      border-radius: 18px;
+      padding: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: grid;
+      gap: 0.5rem;
+      box-shadow: 0 25px 55px rgba(15, 23, 42, 0.45);
+    }
+
+    .stat-card strong {
+      font-size: 1.6rem;
+      color: white;
+    }
+
+    .glass-card {
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: clamp(1.8rem, 4vw, 2.6rem);
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 25px 55px rgba(15, 23, 42, 0.6);
+      backdrop-filter: blur(18px);
+    }
+
+    .glass-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .search-tools {
+      display: grid;
+      gap: 1.2rem;
+    }
+
+    .search-bar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    .input-shell {
+      position: relative;
+    }
+
+    .input-shell svg {
+      position: absolute;
+      top: 50%;
+      left: 1rem;
+      transform: translateY(-50%);
+      width: 20px;
+      height: 20px;
+      stroke: var(--text-muted);
+    }
+
+    input[type="search"] {
+      width: 100%;
+      padding: 0.9rem 1.1rem 0.9rem 3rem;
+      border-radius: 16px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      background: rgba(15, 23, 42, 0.85);
+      color: white;
+      font-size: 1.05rem;
+      transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    input[type="search"]::placeholder {
+      color: rgba(226, 232, 240, 0.6);
+    }
+
+    input[type="search"]:focus {
+      outline: none;
+      border-color: rgba(99, 102, 241, 0.65);
+      box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.18);
+    }
+
+    .primary-btn {
+      border: none;
+      padding: 0.9rem 1.4rem;
+      border-radius: 16px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      cursor: pointer;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.96), rgba(236, 72, 153, 0.85));
+      color: white;
+      box-shadow: 0 18px 40px rgba(99, 102, 241, 0.32);
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+    }
+
+    .primary-btn:hover,
+    .primary-btn:focus-visible {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 48px rgba(99, 102, 241, 0.38);
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    select {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(15, 23, 42, 0.9);
+      color: white;
+      padding: 0.55rem 1.1rem;
+      font-size: 0.95rem;
+      appearance: none;
+      background-image: linear-gradient(45deg, transparent 50%, rgba(248, 250, 252, 0.6) 50%),
+        linear-gradient(135deg, rgba(248, 250, 252, 0.6) 50%, transparent 50%),
+        linear-gradient(to right, rgba(248, 250, 252, 0.4), rgba(248, 250, 252, 0));
+      background-position: calc(100% - 18px) calc(1rem - 2px), calc(100% - 13px) calc(1rem - 2px), 0 0;
+      background-size: 6px 6px, 6px 6px, 100% 100%;
+      background-repeat: no-repeat;
+    }
+
+    .secondary-btn {
+      padding: 0.6rem 1.2rem;
+      border-radius: 14px;
+      border: 1px solid rgba(236, 72, 153, 0.4);
+      background: rgba(236, 72, 153, 0.16);
+      color: white;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .secondary-btn:hover,
+    .secondary-btn:focus-visible {
+      background: rgba(236, 72, 153, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .suggestions {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      margin-top: 0.35rem;
+    }
+
+    .suggestions button {
+      background: rgba(99, 102, 241, 0.12);
+      border: 1px solid rgba(99, 102, 241, 0.22);
+      color: white;
+      padding: 0.45rem 0.9rem;
+      border-radius: 999px;
+      font-size: 0.85rem;
+      cursor: pointer;
+      transition: background 0.25s ease;
+    }
+
+    .suggestions button:hover,
+    .suggestions button:focus-visible {
+      background: rgba(99, 102, 241, 0.2);
+    }
+
+    .word-of-day {
+      margin-top: 1.4rem;
+      padding: 1.1rem 1.2rem;
+      border-radius: 16px;
+      background: rgba(15, 23, 42, 0.72);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      position: relative;
+    }
+
+    .word-of-day::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .word-of-day strong {
+      font-family: "Playfair Display", serif;
+      font-size: 1.2rem;
+    }
+
+    .word-of-day span {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+    }
+
+    .results {
+      margin-top: clamp(2.5rem, 6vw, 4rem);
+      display: grid;
+      gap: 1.6rem;
+    }
+
+    .results-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .results-header h2 {
+      font-family: "Playfair Display", serif;
+      font-size: clamp(1.7rem, 3vw, 2.2rem);
+      margin: 0;
+    }
+
+    .result-count {
+      padding: 0.4rem 0.9rem;
+      border-radius: 12px;
+      background: rgba(99, 102, 241, 0.16);
+      border: 1px solid rgba(99, 102, 241, 0.25);
+      font-size: 0.9rem;
+    }
+
+    .word-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .word-card {
+      display: grid;
+      gap: 0.8rem;
+      padding: 1.2rem 1.4rem 1.4rem;
+      border-radius: 22px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      background: rgba(15, 23, 42, 0.72);
+      box-shadow: 0 18px 40px rgba(15, 23, 42, 0.45);
+      transition: transform 0.25s ease, border 0.25s ease, box-shadow 0.25s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .word-card::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), transparent 60%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .word-card:hover,
+    .word-card:focus-within {
+      transform: translateY(-6px);
+      border-color: rgba(99, 102, 241, 0.45);
+      box-shadow: 0 25px 55px rgba(99, 102, 241, 0.25);
+    }
+
+    .word-card:hover::after,
+    .word-card:focus-within::after {
+      opacity: 1;
+    }
+
+    .word-card.active-card {
+      border-color: rgba(236, 72, 153, 0.55);
+      box-shadow: 0 30px 70px rgba(236, 72, 153, 0.28);
+      transform: translateY(-8px);
+    }
+
+    .word-card h3 {
+      margin: 0;
+      font-size: 1.3rem;
+      color: white;
+    }
+
+    .article-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      background: rgba(236, 72, 153, 0.18);
+      border: 1px solid rgba(236, 72, 153, 0.35);
+      margin-right: 0.6rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: rgba(255, 255, 255, 0.88);
+    }
+
+    .pronunciation {
+      color: rgba(226, 232, 240, 0.7);
+      font-size: 0.92rem;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.3rem 0.65rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+    }
+
+    .badge-pos {
+      background: rgba(99, 102, 241, 0.18);
+      border: 1px solid rgba(99, 102, 241, 0.35);
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .badge-theme {
+      background: rgba(236, 72, 153, 0.18);
+      border: 1px solid rgba(236, 72, 153, 0.32);
+      color: rgba(255, 255, 255, 0.9);
+    }
+
+    .definition-snippet {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .details-button {
+      justify-self: flex-start;
+      background: transparent;
+      border: none;
+      color: rgba(236, 72, 153, 0.9);
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      cursor: pointer;
+      transition: color 0.2s ease;
+    }
+
+    .details-button svg {
+      width: 16px;
+      height: 16px;
+      stroke: currentColor;
+    }
+
+    .details-button:hover,
+    .details-button:focus-visible {
+      color: rgba(236, 72, 153, 1);
+    }
+
+    .detail-panel {
+      background: rgba(15, 23, 42, 0.75);
+      border-radius: 26px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      padding: clamp(1.6rem, 4vw, 2.4rem);
+      display: grid;
+      gap: 1.4rem;
+      box-shadow: 0 28px 60px rgba(15, 23, 42, 0.55);
+    }
+
+    .detail-header {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .detail-header h3 {
+      margin: 0;
+      font-size: clamp(1.8rem, 3vw, 2.3rem);
+      font-family: "Playfair Display", serif;
+    }
+
+    .level-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.35rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(45, 212, 191, 0.16);
+      border: 1px solid rgba(45, 212, 191, 0.35);
+      font-size: 0.8rem;
+      color: rgba(255, 255, 255, 0.92);
+    }
+
+    .close-btn {
+      border: none;
+      background: rgba(15, 23, 42, 0.65);
+      border-radius: 14px;
+      padding: 0.45rem 0.8rem;
+      color: rgba(226, 232, 240, 0.65);
+      cursor: pointer;
+      transition: background 0.25s ease, color 0.25s ease;
+    }
+
+    .close-btn:hover,
+    .close-btn:focus-visible {
+      background: rgba(99, 102, 241, 0.22);
+      color: white;
+    }
+
+    .detail-body {
+      display: grid;
+      gap: 1.6rem;
+    }
+
+    .detail-columns {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .detail-section h4 {
+      margin-bottom: 0.6rem;
+      font-size: 0.95rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: rgba(226, 232, 240, 0.75);
+    }
+
+    .detail-section ul,
+    .detail-section ol {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.5rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      font-size: 0.98rem;
+    }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .chip {
+      padding: 0.4rem 0.75rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      font-size: 0.82rem;
+      color: rgba(255, 255, 255, 0.92);
+      letter-spacing: 0.03em;
+    }
+
+    .extras {
+      margin-top: clamp(2rem, 5vw, 3.5rem);
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: clamp(1.4rem, 4vw, 2.4rem);
+    }
+
+    .topics {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 1rem;
+    }
+
+    .topic-card {
+      padding: 1rem 1.1rem;
+      border-radius: 18px;
+      background: rgba(15, 23, 42, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: grid;
+      gap: 0.4rem;
+    }
+
+    .topic-card strong {
+      font-family: "Playfair Display", serif;
+      letter-spacing: 0.02em;
+    }
+
+    .learning-tips ul {
+      margin: 0;
+      padding-left: 1.1rem;
+      display: grid;
+      gap: 0.6rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    footer {
+      margin-top: 4rem;
+      padding: 3rem clamp(1rem, 4vw, 2.4rem) 2.5rem;
+      background: rgba(10, 17, 31, 0.88);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.8rem;
+    }
+
+    .footer-grid h5 {
+      margin: 0 0 0.8rem;
+      font-size: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(226, 232, 240, 0.7);
+    }
+
+    .footer-grid ul {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      display: grid;
+      gap: 0.45rem;
+      color: rgba(226, 232, 240, 0.65);
+    }
+
+    .footer-grid a {
+      color: inherit;
+      text-decoration: none;
+      transition: color 0.25s ease;
+    }
+
+    .footer-grid a:hover,
+    .footer-grid a:focus-visible {
+      color: white;
+    }
+
+    .footer-bottom {
+      margin-top: 2rem;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 1rem;
+      font-size: 0.85rem;
+      color: rgba(148, 163, 184, 0.75);
+    }
+
+    @media (max-width: 980px) {
+      .hero-intro {
+        grid-template-columns: 1fr;
+      }
+
+      .extras {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        flex-wrap: wrap;
+      }
+
+      .nav-links {
+        order: 3;
+        width: 100%;
+        justify-content: space-between;
+        font-size: 0.9rem;
+      }
+
+      .cta {
+        order: 2;
+      }
+
+      .hero-copy h1 {
+        font-size: clamp(2.2rem, 7vw, 3rem);
+      }
+
+      .word-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .word-card {
+        padding: 1.1rem 1.2rem;
+      }
+
+      .detail-panel {
+        padding: 1.3rem 1.35rem 1.6rem;
+      }
+    }
+
+    @media (max-width: 540px) {
+      nav {
+        padding: 0.8rem 1rem;
+      }
+
+      .hero-copy p {
+        font-size: 1rem;
+      }
+
+      .search-bar {
+        grid-template-columns: 1fr;
+      }
+
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .word-of-day {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      footer {
+        padding: 2.5rem 1.2rem 2rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="glow-ring"></div>
+  <div class="glow-ring"></div>
+  <header>
+    <nav>
+      <div class="brand">
+        <div class="logo">LA</div>
+        <div>
+          <span>Lexikon Aurora</span>
+          <div style="font-size:0.7rem; letter-spacing:0.32em; color:rgba(248,250,252,0.5); text-transform:uppercase;">
+            Premium Wörterbuch
+          </div>
+        </div>
+      </div>
+      <div class="nav-links">
+        <a href="#suchwerkzeug">Suchwerkzeug</a>
+        <a href="#wortschatz">Wortschatz</a>
+        <a href="#lernwelten">Lernwelten</a>
+      </div>
+      <button class="cta" type="button">Kostenlos starten</button>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero-intro" id="suchwerkzeug">
+      <div class="hero-copy">
+        <h1>Das Wörterbuch für Anspruchsvolle – Deutsch glänzend entdecken.</h1>
+        <p>
+          Lexikon Aurora vereint fein kuratierte Wortschätze, elegante Präsentation und intelligente Suchfunktionen.
+          Finden Sie Bedeutungen, Anwendungsbeispiele und Grammatikhinweise auf einen Blick – optimiert für Desktop
+          und Mobilgeräte.
+        </p>
+        <div class="hero-stats">
+          <div class="stat-card">
+            <strong>3.500+</strong>
+            <span>kuratiere Beispielsätze mit kulturellem Kontext</span>
+          </div>
+          <div class="stat-card">
+            <strong>120</strong>
+            <span>Premium-Themenfelder von Alltag bis Fachsprache</span>
+          </div>
+          <div class="stat-card">
+            <strong>∞</strong>
+            <span>Synonyme, Kollokationen und Lernideen für Ihren Wortschatz</span>
+          </div>
+        </div>
+      </div>
+      <div class="glass-card search-tools">
+        <div>
+          <h2 style="margin:0 0 0.5rem;font-family:'Playfair Display',serif;font-size:1.9rem;">Schnellsuche</h2>
+          <p style="margin:0 0 1.5rem;color:var(--text-muted);max-width:400px;">
+            Durchsuchen Sie präzise Bedeutungen, entdecken Sie verwandte Begriffe und filtern Sie nach Wortarten.
+          </p>
+        </div>
+        <div class="search-bar">
+          <label class="input-shell" for="searchInput">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.7">
+              <path d="M11 19a8 8 0 1 0 0-16 8 8 0 0 0 0 16Z" />
+              <path d="m21 21-3.5-3.5" />
+            </svg>
+            <input id="searchInput" type="search" placeholder="Wort, Redewendung oder Synonym eingeben" autocomplete="off">
+          </label>
+          <button class="primary-btn" id="searchBtn" type="button">Suchen</button>
+        </div>
+        <div class="filters">
+          <select id="partOfSpeechFilter" aria-label="Wortart filtern">
+            <option value="alle">Alle Wortarten</option>
+            <option value="Substantiv">Substantive</option>
+            <option value="Verb">Verben</option>
+            <option value="Adjektiv">Adjektive</option>
+            <option value="Adverb">Adverbien</option>
+            <option value="Redewendung">Redewendungen</option>
+          </select>
+          <button class="secondary-btn" id="surpriseBtn" type="button">Überraschungswort</button>
+          <div class="chips" id="activeTags" aria-live="polite"></div>
+        </div>
+        <div class="suggestions" id="suggestionList" aria-label="Vorgeschlagene Wörter"></div>
+        <div class="word-of-day" id="wordOfDay" aria-live="polite"></div>
+      </div>
+    </section>
+
+    <section class="results" id="wortschatz">
+      <div class="results-header">
+        <h2>Wortschatz entdecken</h2>
+        <div class="result-count" id="resultCount">0 Einträge</div>
+      </div>
+      <div class="word-grid" id="wordGrid"></div>
+      <div class="detail-panel" id="wordDetails" hidden></div>
+    </section>
+
+    <section class="extras" id="lernwelten">
+      <div class="glass-card">
+        <h2 style="margin-top:0;font-family:'Playfair Display',serif;font-size:2rem;">Beliebte Themenwelten</h2>
+        <p style="color:var(--text-muted);margin-bottom:1.4rem;">
+          Lerne kontextbezogen: Unsere Kuratoren fügen fortlaufend neue Themenwelten hinzu, um Ihren Wortschatz zu
+          verankern.
+        </p>
+        <div class="topics" id="topicList"></div>
+      </div>
+      <div class="glass-card learning-tips">
+        <h2 style="margin-top:0;font-family:'Playfair Display',serif;font-size:2rem;">Tipps für feines Deutsch</h2>
+        <ul>
+          <li>Kombinieren Sie neue Wörter mit persönlichen Notizen, um Bedeutungen im Gedächtnis zu verankern.</li>
+          <li>Hören Sie authentische Podcasts und markieren Sie Begriffe, die Sie mit Lexikon Aurora vertiefen möchten.</li>
+          <li>Nutzen Sie die Redewendungen, um idiomatische Sicherheit im Alltag und im Berufsleben aufzubauen.</li>
+          <li>Wiederholen Sie gezielt Wortfelder – etwa Reisen, Emotionen oder Wissenschaft – um den Wortschatz zu
+            festigen.</li>
+        </ul>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="footer-grid">
+      <div>
+        <h5>Über Aurora</h5>
+        <ul>
+          <li><a href="#">Kurationsprinzipien</a></li>
+          <li><a href="#">Team & Linguisten</a></li>
+          <li><a href="#">Partnerschaften</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Lernangebote</h5>
+        <ul>
+          <li><a href="#">Premiumkurse</a></li>
+          <li><a href="#">Konversationsklub</a></li>
+          <li><a href="#">Akademisches Deutsch</a></li>
+        </ul>
+      </div>
+      <div>
+        <h5>Kontakt</h5>
+        <ul>
+          <li><a href="mailto:hallo@lexikon-aurora.de">hallo@lexikon-aurora.de</a></li>
+          <li><a href="#">Community-Forum</a></li>
+          <li><a href="#">Feedback geben</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Lexikon Aurora. Sprache ist unser Leuchten.</span>
+      <span>Datenschutz · Impressum</span>
+    </div>
+  </footer>
+
+  <script>
+    const dictionary = [
+      {
+        word: "die Zeit",
+        base: "Zeit",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[t͡saɪ̯t]",
+        level: "A2",
+        theme: "Alltag",
+        definitions: [
+          "Fortlauf von Augenblicken, in dem Ereignisse stattfinden und wahrgenommen werden.",
+          "Gelegenheit oder Zeitraum, der für eine Tätigkeit zur Verfügung steht."
+        ],
+        synonyms: ["Zeitraum", "Moment", "Epoche"],
+        examples: [
+          "Ich habe heute keine Zeit für einen langen Spaziergang.",
+          "Mit der Zeit lernst du Geduld."],
+        notes: "Die Zeit bildet den Rahmen vieler Redewendungen: 'mit der Zeit', 'keine Zeit verlieren'.",
+        forms: { plural: "die Zeiten" },
+        related: ["pünktlich", "die Planung"],
+        tags: ["Planung", "Philosophie"],
+        etymology: "Althochdeutsch 'zīt' für Zeit, Zeiteinteilung.",
+        popularity: 95
+      },
+      {
+        word: "die Gelassenheit",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ɡəˈlasn̩haɪ̯t]",
+        level: "C1",
+        theme: "Persönlichkeit",
+        definitions: [
+          "Innere Ruhe und Unaufgeregtheit, besonders in stressigen Situationen.",
+          "Fähigkeit, Dinge anzunehmen, ohne sich aufzuregen."
+        ],
+        synonyms: ["Ruhe", "Besonnenheit", "Souveränität"],
+        examples: [
+          "Selbst in schwierigen Zeiten bewahrte sie ihre Gelassenheit.",
+          "Gelassenheit ist eine Stärke in Verhandlungen."],
+        notes: "Gegenteil: Unruhe, Nervosität.",
+        forms: { plural: "die Gelassenheiten" },
+        related: ["ausgeglichen", "ruhig"],
+        tags: ["Emotion", "Mindset"],
+        etymology: "Abgeleitet vom Verb 'lassen' – etwas loslassen können.",
+        popularity: 78
+      },
+      {
+        word: "laufen",
+        partOfSpeech: "Verb",
+        pronunciation: "[ˈlaʊ̯fn̩]",
+        level: "A1",
+        theme: "Bewegung",
+        definitions: [
+          "Sich mit schnellen Schritten fortbewegen.",
+          "(Technisch) in Betrieb sein, funktionieren."
+        ],
+        synonyms: ["rennen", "gehen", "funktionieren"],
+        examples: [
+          "Sie läuft jeden Morgen fünf Kilometer.",
+          "Der Computer läuft wieder stabil."],
+        notes: "Unregelmäßiges Verb mit Umlaut im Präsens (du läufst).",
+        forms: {
+          present: "er/sie läuft",
+          past: "er/sie lief",
+          perfect: "er/sie ist gelaufen"
+        },
+        related: ["der Lauf", "laufen gehen"],
+        tags: ["Sport", "Technik"],
+        etymology: "Althochdeutsch 'loufan'.",
+        popularity: 88
+      },
+      {
+        word: "die Vorstellungskraft",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ˈfɔʁʃtɛlʊŋsˌkʁaft]",
+        level: "B2",
+        theme: "Kreativität",
+        definitions: [
+          "Fähigkeit, geistig Bilder oder Szenarien zu erzeugen.",
+          "Kreatives Denkvermögen, das neue Ideen ermöglicht."
+        ],
+        synonyms: ["Imagination", "Fantasie"],
+        examples: [
+          "Die Vorstellungskraft von Kindern kennt keine Grenzen.",
+          "Innovationen entstehen oft aus lebendiger Vorstellungskraft."],
+        notes: "Auch als Synonym für 'Imagination' verwendbar.",
+        forms: { plural: "die Vorstellungskräfte" },
+        related: ["kreativ", "die Vision"],
+        tags: ["Kunst", "Innovation"],
+        etymology: "Kombination aus 'vorstellen' und 'Kraft'.",
+        popularity: 82
+      },
+      {
+        word: "prächtig",
+        partOfSpeech: "Adjektiv",
+        pronunciation: "[ˈpʁɛçtɪç]",
+        level: "B2",
+        theme: "Beschreibung",
+        definitions: [
+          "Besonders schön, beeindruckend oder hervorragend.",
+          "Von hoher Qualität, prachtvoll."
+        ],
+        synonyms: ["herrlich", "glänzend", "großartig"],
+        examples: [
+          "Das Schloss erstrahlt in prächtigem Licht.",
+          "Wir hatten einen prächtigen Tag am Meer."],
+        notes: "Steigerung: prächtiger, am prächtigsten.",
+        forms: { comparative: "prächtiger", superlative: "am prächtigsten" },
+        related: ["die Pracht", "glänzend"],
+        tags: ["Ästhetik", "Gefühl"],
+        etymology: "Mittelhochdeutsch 'bræhtig' – glänzend.",
+        popularity: 69
+      },
+      {
+        word: "die Herausforderung",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[haʊ̯ɐˈfɔʁdɐʊ̯ŋ]",
+        level: "B1",
+        theme: "Persönlichkeit",
+        definitions: [
+          "Anspruchsvolle Aufgabe, die Einsatz fordert.",
+          "Situation, die besondere Fähigkeiten verlangt."
+        ],
+        synonyms: ["Aufgabe", "Schwierigkeit"],
+        examples: [
+          "Das neue Projekt ist eine spannende Herausforderung.",
+          "Eine Sprache zu lernen ist eine langfristige Herausforderung."],
+        notes: "Redewendung: 'eine Herausforderung meistern'.",
+        forms: { plural: "die Herausforderungen" },
+        related: ["fordern", "anspruchsvoll"],
+        tags: ["Karriere", "Lernen"],
+        etymology: "Zusammensetzung aus 'heraus' und 'fordern'.",
+        popularity: 84
+      },
+      {
+        word: "der Fortschritt",
+        article: "der",
+        partOfSpeech: "Substantiv",
+        gender: "maskulin",
+        pronunciation: "[ˈfɔʁtʃʁɪt]",
+        level: "B2",
+        theme: "Innovation",
+        definitions: [
+          "Entwicklung zu einem besseren Zustand.",
+          "Verbesserung in einer Sache oder einem Projekt."
+        ],
+        synonyms: ["Entwicklung", "Verbesserung", "Innovation"],
+        examples: [
+          "Technischer Fortschritt verändert den Alltag.",
+          "Du machst große Fortschritte in deinem Deutsch."],
+        notes: "Gegenteil: Rückschritt.",
+        forms: { plural: "die Fortschritte" },
+        related: ["modern", "weiterkommen"],
+        tags: ["Wissenschaft", "Karriere"],
+        etymology: "Aus 'fort' und 'Schritt'.",
+        popularity: 87
+      },
+      {
+        word: "die Zusammenarbeit",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[t͡suˈzamənˌaʁbaɪ̯t]",
+        level: "B2",
+        theme: "Beruf",
+        definitions: [
+          "Gemeinsames Arbeiten mehrerer Personen oder Gruppen.",
+          "Koordination zur Erreichung eines Ziels."],
+        synonyms: ["Kooperation", "Teamarbeit"],
+        examples: [
+          "Die Zusammenarbeit im Team klappt ausgezeichnet.",
+          "Internationale Zusammenarbeit fördert Innovation."],
+        notes: "Verb: zusammenarbeiten.",
+        forms: { plural: "die Zusammenarbeiten" },
+        related: ["teamorientiert", "der Partner"],
+        tags: ["Karriere", "Projekt"],
+        etymology: "Lehnübersetzung zu 'cooperation'.",
+        popularity: 76
+      },
+      {
+        word: "der Horizont",
+        article: "der",
+        partOfSpeech: "Substantiv",
+        gender: "maskulin",
+        pronunciation: "[hoʁiˈt͡sɔnt]",
+        level: "B1",
+        theme: "Natur",
+        definitions: [
+          "Grenzlinie zwischen Erde und Himmel.",
+          "Bildlich: Kenntnis- oder Erfahrungsbereich."],
+        synonyms: ["Gesichtskreis", "Erfahrungsfeld"],
+        examples: [
+          "Die Sonne verschwand am Horizont.",
+          "Ein Auslandsjahr erweitert den Horizont."],
+        notes: "Redewendung: 'den Horizont erweitern'.",
+        forms: { plural: "die Horizonte" },
+        related: ["weit", "blicken"],
+        tags: ["Reise", "Perspektive"],
+        etymology: "Aus dem Lateinischen 'horizontem'.",
+        popularity: 81
+      },
+      {
+        word: "die Entdeckung",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ɛntˈdɛkʊŋ]",
+        level: "B1",
+        theme: "Erkundung",
+        definitions: [
+          "Das Auffinden von etwas bisher Unbekanntem.",
+          "Erkenntnis, die neue Einsichten bietet."],
+        synonyms: ["Fund", "Erkenntnis"],
+        examples: [
+          "Die Entdeckung neuer Sterne fasziniert Astronomen.",
+          "Eine kleine Entdeckung im Alltag kann Freude bringen."],
+        notes: "Verb: entdecken.",
+        forms: { plural: "die Entdeckungen" },
+        related: ["forschen", "neu"],
+        tags: ["Wissenschaft", "Reise"],
+        etymology: "Von 'entdecken' – etwas aufdecken.",
+        popularity: 73
+      },
+      {
+        word: "die Gelegenheit",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ɡəˈleːɡənhaɪ̯t]",
+        level: "B1",
+        theme: "Alltag",
+        definitions: [
+          "Günstiger Zeitpunkt für eine Handlung.",
+          "Chance, etwas zu tun."],
+        synonyms: ["Chance", "Option", "Möglichkeit"],
+        examples: [
+          "Nutze jede Gelegenheit zum Sprechen.",
+          "Wir haben selten die Gelegenheit, alle zusammenzukommen."],
+        notes: "Redewendung: 'die Gelegenheit beim Schopf packen'.",
+        forms: { plural: "die Gelegenheiten" },
+        related: ["günstig", "die Chance"],
+        tags: ["Planung", "Lernen"],
+        etymology: "Mittelhochdeutsch 'gelegenheit'.",
+        popularity: 79
+      },
+      {
+        word: "genießen",
+        partOfSpeech: "Verb",
+        pronunciation: "[ɡəˈniːsən]",
+        level: "B1",
+        theme: "Gefühl",
+        definitions: [
+          "Etwas mit Freude wahrnehmen und sich daran erfreuen.",
+          "Eine Zeit, Situation oder Speise bewusst erleben."
+        ],
+        synonyms: ["auskosten", "erleben", "sich erfreuen"],
+        examples: [
+          "Sie genießen den Sommer im Park.",
+          "Genieße den Moment, er kommt nicht zurück."],
+        notes: "Starkes Verb mit unregelmäßigem Partizip II.",
+        forms: {
+          present: "er/sie genießt",
+          past: "er/sie genoss",
+          perfect: "er/sie hat genossen"
+        },
+        related: ["die Freude", "wohlfühlen"],
+        tags: ["Lifestyle", "Emotion"],
+        etymology: "Althochdeutsch 'giniessan' – kosten, probieren.",
+        popularity: 77
+      }
+    ];
+    dictionary.push(
+      {
+        word: "aufmerksam",
+        partOfSpeech: "Adjektiv",
+        pronunciation: "[ˈaʊ̯fˌmɛʁkzaːm]",
+        level: "B1",
+        theme: "Soziales",
+        definitions: [
+          "Mit wacher Wahrnehmung versehen.",
+          "Rücksichtsvoll und achtsam gegenüber anderen."],
+        synonyms: ["wachsam", "achtsam", "höflich"],
+        examples: [
+          "Er hört aufmerksam zu.",
+          "Sie ist sehr aufmerksam und merkt jede Veränderung."],
+        notes: "Steigerung: aufmerksamer, am aufmerksamsten.",
+        forms: { comparative: "aufmerksamer", superlative: "am aufmerksamsten" },
+        related: ["achtsam", "das Interesse"],
+        tags: ["Kommunikation", "Emotion"],
+        etymology: "Althochdeutsch 'ofmarhsam' – achtend.",
+        popularity: 74
+      },
+      {
+        word: "die Stimmung",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ˈʃtɪmʊŋ]",
+        level: "A2",
+        theme: "Emotion",
+        definitions: [
+          "Vorherrschendes Gefühl oder Atmosphäre.",
+          "Musikalisch: Einstimmung eines Instruments."],
+        synonyms: ["Atmosphäre", "Laune"],
+        examples: [
+          "Die Stimmung auf dem Fest war ausgelassen.",
+          "Die Stimmung im Raum ist angespannt."],
+        notes: "Redewendung: 'gute Stimmung verbreiten'.",
+        forms: { plural: "die Stimmungen" },
+        related: ["die Laune", "stimmen"],
+        tags: ["Kultur", "Gefühl"],
+        etymology: "Von 'stimmen' – Ton anpassen.",
+        popularity: 83
+      },
+      {
+        word: "der Ausblick",
+        article: "der",
+        partOfSpeech: "Substantiv",
+        gender: "maskulin",
+        pronunciation: "[ˈaʊ̯sbɪk]",
+        level: "A2",
+        theme: "Natur",
+        definitions: [
+          "Fernsicht von einem erhöhten Punkt.",
+          "Zukunftsperspektive oder Erwartung."],
+        synonyms: ["Panorama", "Perspektive"],
+        examples: [
+          "Der Ausblick von der Terrasse ist atemberaubend.",
+          "Der wirtschaftliche Ausblick bleibt stabil."],
+        notes: "Verb: ausblicken (selten).",
+        forms: { plural: "die Ausblicke" },
+        related: ["blicken", "die Perspektive"],
+        tags: ["Reise", "Analyse"],
+        etymology: "Zu 'ausblicken'.",
+        popularity: 71
+      },
+      {
+        word: "die Entfaltung",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ɛntˈfaltʊŋ]",
+        level: "C1",
+        theme: "Persönlichkeit",
+        definitions: [
+          "Das Entwickeln der eigenen Fähigkeiten und Talente.",
+          "Physikalisch: das Öffnen oder Auseinanderfalten."],
+        synonyms: ["Entwicklung", "Ausprägung"],
+        examples: [
+          "Die neue Aufgabe ermöglicht berufliche Entfaltung.",
+          "Die Blume ist in voller Entfaltung."],
+        notes: "Gegenteil: Einschränkung.",
+        forms: { plural: "die Entfaltungen" },
+        related: ["sich entfalten", "die Freiheit"],
+        tags: ["Karriere", "Mindset"],
+        etymology: "Von 'entfalten' – auseinanderbreiten.",
+        popularity: 68
+      },
+      {
+        word: "herausragend",
+        partOfSpeech: "Adjektiv",
+        pronunciation: "[hɛʁaʊ̯sˈʁaːɡn̩t]",
+        level: "B2",
+        theme: "Beschreibung",
+        definitions: [
+          "Besonders ausgezeichnet, überdurchschnittlich gut.",
+          "In einer Gruppe deutlich sichtbar."],
+        synonyms: ["exzellent", "bemerkenswert"],
+        examples: [
+          "Sie leistet herausragende Arbeit im Forschungsteam.",
+          "Die Aussicht ist herausragend schön."],
+        notes: "Steigerung: herausragender, am herausragendsten.",
+        forms: { comparative: "herausragender", superlative: "am herausragendsten" },
+        related: ["exzellent", "der Höhepunkt"],
+        tags: ["Bewertung", "Karriere"],
+        etymology: "Von 'herausragen' – hervorstehen.",
+        popularity: 72
+      },
+      {
+        word: "ins Schwarze treffen",
+        partOfSpeech: "Redewendung",
+        pronunciation: "[ɪns ˈʃvaʁt͡sə ˈtʁɛfn̩]",
+        level: "B2",
+        theme: "Kommunikation",
+        definitions: [
+          "Mit einer Aussage oder Handlung genau richtig liegen.",
+          "Ein Ziel präzise erreichen."],
+        synonyms: ["den Nagel auf den Kopf treffen"],
+        examples: [
+          "Mit deiner Analyse hast du ins Schwarze getroffen.",
+          "Ihre Kampagne traf ins Schwarze und begeisterte Kunden."],
+        notes: "Wörtlich aus dem Bogenschießen abgeleitet.",
+        related: ["präzise", "zutreffen"],
+        tags: ["Redewendung", "Treffsicherheit"],
+        etymology: "Schießsport; das Zentrum der Zielscheibe ist schwarz.",
+        popularity: 80
+      },
+      {
+        word: "nach und nach",
+        partOfSpeech: "Adverb",
+        pronunciation: "[ˈnaːx ʊnt ˈnaːx]",
+        level: "A2",
+        theme: "Zeit",
+        definitions: [
+          "Allmählich, Schritt für Schritt.",
+          "Über einen längeren Zeitraum verteilt."],
+        synonyms: ["allmählich", "peu à peu"],
+        examples: [
+          "Nach und nach lernte sie alle Kollegen kennen.",
+          "Die Bäume verlieren nach und nach ihre Blätter."],
+        notes: "Verstärkbar mit 'immer mehr'.",
+        related: ["schrittweise", "langsam"],
+        tags: ["Zeit", "Prozess"],
+        etymology: "Reduplikation zur Verstärkung des schrittweisen Fortschritts.",
+        popularity: 70
+      },
+      {
+        word: "die Neugier",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ˈnɔʏ̯ˌɡiːɐ̯]",
+        level: "B1",
+        theme: "Persönlichkeit",
+        definitions: [
+          "Verlangen, Neues zu erfahren oder zu entdecken.",
+          "Interesse an unbekannten Dingen."],
+        synonyms: ["Wissensdrang", "Interesse"],
+        examples: [
+          "Kinder haben von Natur aus viel Neugier.",
+          "Neugier treibt Forschung voran."],
+        notes: "Positive Konnotation, aber auch als indiskret empfunden.",
+        forms: { plural: "die Neugieren" },
+        related: ["die Frage", "forschen"],
+        tags: ["Lernen", "Mindset"],
+        etymology: "Althochdeutsch 'niugiri'.",
+        popularity: 75
+      },
+      {
+        word: "der Gleichklang",
+        article: "der",
+        partOfSpeech: "Substantiv",
+        gender: "maskulin",
+        pronunciation: "[ˈɡlaɪ̯çklaŋ]",
+        level: "C1",
+        theme: "Kultur",
+        definitions: [
+          "Harmonie zwischen Tönen oder Stimmen.",
+          "Übertragen: Übereinstimmung in Meinungen."],
+        synonyms: ["Harmonie", "Übereinstimmung"],
+        examples: [
+          "Der Chor sang im perfekten Gleichklang.",
+          "Ihre Ideen standen im Gleichklang."],
+        notes: "Dichterische Sprache.",
+        forms: { plural: "die Gleichklänge" },
+        related: ["harmonisch", "der Klang"],
+        tags: ["Musik", "Team"],
+        etymology: "Kompositum aus 'gleich' und 'Klang'.",
+        popularity: 60
+      },
+      {
+        word: "die Weitsicht",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[ˈvaɪ̯tˌzɪçt]",
+        level: "B2",
+        theme: "Planung",
+        definitions: [
+          "Fähigkeit, Entwicklungen vorauszusehen.",
+          "Klare Sicht in die Ferne."],
+        synonyms: ["Voraussicht", "Planung"],
+        examples: [
+          "Mit Weitsicht investierst du nachhaltig.",
+          "Die Weitsicht von der Bergspitze ist erstaunlich."],
+        notes: "Kontrast: Kurzsichtigkeit.",
+        forms: { plural: "die Weitsichten" },
+        related: ["strategisch", "der Plan"],
+        tags: ["Karriere", "Natur"],
+        etymology: "Kompositum aus 'weit' und 'Sicht'.",
+        popularity: 67
+      },
+      {
+        word: "ergründen",
+        partOfSpeech: "Verb",
+        pronunciation: "[ɛɐ̯ˈɡʁʏndn̩]",
+        level: "C1",
+        theme: "Forschung",
+        definitions: [
+          "Einer Sache gründlich nachgehen und sie verstehen.",
+          "In die Tiefe einer Frage eindringen."],
+        synonyms: ["untersuchen", "erforschen"],
+        examples: [
+          "Philosophen ergründen den Sinn des Lebens.",
+          "Wir ergründen die Ursachen des Problems."],
+        notes: "Oft im wissenschaftlichen Kontext.",
+        forms: {
+          present: "er/sie ergründet",
+          past: "er/sie ergründete",
+          perfect: "er/sie hat ergründet"
+        },
+        related: ["analysieren", "die Ursache"],
+        tags: ["Wissenschaft", "Philosophie"],
+        etymology: "Von 'Grund' – in die Tiefe gehen.",
+        popularity: 58
+      },
+      {
+        word: "sich entfalten",
+        partOfSpeech: "Verb",
+        pronunciation: "[zɪç ɛntˈfaltən]",
+        level: "B2",
+        theme: "Persönlichkeit",
+        definitions: [
+          "Eigene Fähigkeiten entwickeln.",
+          "In vollem Umfang zur Geltung kommen."],
+        synonyms: ["aufblühen", "entwickeln"],
+        examples: [
+          "In diesem Umfeld kann ich mich entfalten.",
+          "Die Kunstwerke entfalten ihre Wirkung im Licht."],
+        notes: "Reflexives Verb.",
+        forms: {
+          present: "er/sie entfaltet sich",
+          past: "er/sie entfaltete sich",
+          perfect: "er/sie hat sich entfaltet"
+        },
+        related: ["die Entfaltung", "wachsen"],
+        tags: ["Karriere", "Mindset"],
+        etymology: "Zu 'entfalten'.",
+        popularity: 62
+      },
+      {
+        word: "die Verbundenheit",
+        article: "die",
+        partOfSpeech: "Substantiv",
+        gender: "feminin",
+        pronunciation: "[fɛɐ̯ˈbʊndn̩haɪ̯t]",
+        level: "B2",
+        theme: "Soziales",
+        definitions: [
+          "Gefühl der Zugehörigkeit und Nähe.",
+          "Enges Verhältnis zwischen Personen oder Gruppen."],
+        synonyms: ["Zusammenhalt", "Gemeinschaft"],
+        examples: [
+          "Die Verbundenheit der Mitglieder ist spürbar.",
+          "Traditionen schaffen Verbundenheit."],
+        notes: "Oft in feierlichen Reden verwendet.",
+        forms: { plural: "die Verbundenheiten" },
+        related: ["verbinden", "die Gemeinschaft"],
+        tags: ["Team", "Emotion"],
+        etymology: "Von 'verbinden'.",
+        popularity: 64
+      }
+    );
+    const topics = [
+      {
+        title: "Faszination Natur",
+        description: "Wörter für Landschaften, Wetterphänomene und das Draußensein.",
+        color: "rgba(99,102,241,0.2)"
+      },
+      {
+        title: "Gefühl & Charakter",
+        description: "Feine Nuancen für Emotionen und Persönlichkeitsprofile.",
+        color: "rgba(236,72,153,0.2)"
+      },
+      {
+        title: "Karriere & Kooperation",
+        description: "Sprache der Projekte, Teams und Visionen.",
+        color: "rgba(45,212,191,0.22)"
+      },
+      {
+        title: "Kreative Köpfe",
+        description: "Inspiration für Kunst, Ideen und Innovation.",
+        color: "rgba(250,204,21,0.22)"
+      }
+    ];
+
+    const searchInput = document.getElementById('searchInput');
+    const searchBtn = document.getElementById('searchBtn');
+    const partFilter = document.getElementById('partOfSpeechFilter');
+    const wordGrid = document.getElementById('wordGrid');
+    const wordDetails = document.getElementById('wordDetails');
+    const resultCount = document.getElementById('resultCount');
+    const suggestionList = document.getElementById('suggestionList');
+    const wordOfDay = document.getElementById('wordOfDay');
+    const surpriseBtn = document.getElementById('surpriseBtn');
+    const activeTags = document.getElementById('activeTags');
+    const topicList = document.getElementById('topicList');
+
+    const renderTopics = () => {
+      topicList.innerHTML = topics.map(topic => `
+        <article class="topic-card" style="background: linear-gradient(135deg, ${topic.color}, rgba(15,23,42,0.85)); border-color: ${topic.color};">
+          <strong>${topic.title}</strong>
+          <span style="color: var(--text-muted); font-size: 0.9rem;">${topic.description}</span>
+        </article>
+      `).join('');
+    };
+
+    const normalize = (text) =>
+      text
+        .toLowerCase()
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+
+    const updateResultCount = (count) => {
+      resultCount.textContent = `${count} ${count === 1 ? 'Eintrag' : 'Einträge'}`;
+    };
+
+    const createChips = (tags = []) => {
+      if (!tags.length) return '';
+      return tags.map(tag => `<span class="chip">${tag}</span>`).join('');
+    };
+
+    const renderWordCards = (entries) => {
+      if (!entries.length) {
+        wordGrid.innerHTML = `
+          <div class="word-card" style="grid-column: 1 / -1; text-align: center; cursor: default;">
+            <h3>Kein Eintrag gefunden</h3>
+            <p class="definition-snippet">Versuchen Sie alternative Stichwörter oder entdecken Sie ein Überraschungswort.</p>
+          </div>`;
+        updateResultCount(0);
+        return;
+      }
+
+      const cards = entries.map((entry, index) => {
+        const firstDefinition = entry.definitions?.[0] ?? '';
+        const article = entry.article ? `<span class="article-pill">${entry.article}</span>` : '';
+        const pron = entry.pronunciation ? `<span class="pronunciation">${entry.pronunciation}</span>` : '';
+        const theme = entry.theme ? `<span class="badge badge-theme">${entry.theme}</span>` : '';
+
+        return `
+          <article class="word-card" tabindex="0" data-index="${index}" data-word="${entry.word}">
+            <div>
+              ${article}<h3>${entry.word}</h3>
+            </div>
+            ${pron}
+            <div class="chips">
+              <span class="badge badge-pos">${entry.partOfSpeech}</span>
+              ${theme}
+              ${entry.level ? `<span class="chip">Niveau ${entry.level}</span>` : ''}
+            </div>
+            <p class="definition-snippet">${firstDefinition}</p>
+            <button class="details-button" type="button" data-word="${entry.word}" aria-label="Mehr Details zu ${entry.word}">
+              Details anzeigen
+              <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5">
+                <path d="m9 18 6-6-6-6" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            </button>
+          </article>
+        `;
+      }).join('');
+
+      wordGrid.innerHTML = cards;
+      updateResultCount(entries.length);
+    };
+
+    const buildList = (items = [], ordered = false) => {
+      if (!items.length) return '<p style="color: var(--text-muted);">—</p>';
+      const tag = ordered ? 'ol' : 'ul';
+      return `<${tag}>${items.map(item => `<li>${item}</li>`).join('')}</${tag}>`;
+    };
+
+    const renderDetails = (entry) => {
+      if (!entry) {
+        wordDetails.hidden = true;
+        wordDetails.innerHTML = '';
+        return;
+      }
+
+      const forms = entry.forms ? Object.entries(entry.forms).map(([key, value]) => `<li><strong>${key}:</strong> ${value}</li>`).join('') : '';
+      const related = createChips(entry.related);
+      const synonyms = entry.synonyms?.length ? entry.synonyms.join(', ') : '—';
+
+      wordDetails.innerHTML = `
+        <div class="detail-header">
+          <div>
+            <h3>${entry.article ? `${entry.article} ` : ''}${entry.word}</h3>
+            ${entry.pronunciation ? `<p class="pronunciation">${entry.pronunciation}</p>` : ''}
+          </div>
+          <div class="chips" style="gap:0.6rem;">
+            ${entry.partOfSpeech ? `<span class="badge badge-pos">${entry.partOfSpeech}</span>` : ''}
+            ${entry.level ? `<span class="level-chip">Niveau ${entry.level}</span>` : ''}
+            ${entry.theme ? `<span class="chip">${entry.theme}</span>` : ''}
+          </div>
+          <button class="close-btn" type="button" aria-label="Detailansicht schließen">Schließen</button>
+        </div>
+        <div class="detail-body">
+          <section class="detail-section">
+            <h4>Definitionen</h4>
+            ${buildList(entry.definitions, true)}
+          </section>
+          <section class="detail-section">
+            <h4>Beispiele</h4>
+            ${buildList(entry.examples)}
+          </section>
+          <div class="detail-columns">
+            <section class="detail-section">
+              <h4>Synonyme</h4>
+              <p style="margin:0; color:var(--text-muted);">${synonyms}</p>
+            </section>
+            <section class="detail-section">
+              <h4>Wissenswert</h4>
+              <p style="margin:0; color:var(--text-muted);">${entry.notes ?? '—'}</p>
+            </section>
+            <section class="detail-section">
+              <h4>Grammatik</h4>
+              ${forms ? `<ul>${forms}</ul>` : '<p style="color:var(--text-muted);">—</p>'}
+            </section>
+            <section class="detail-section">
+              <h4>Etymologie</h4>
+              <p style="margin:0; color:var(--text-muted);">${entry.etymology ?? '—'}</p>
+            </section>
+          </div>
+          <section class="detail-section">
+            <h4>Verwandte Begriffe</h4>
+            ${related || '<p style="color:var(--text-muted);">—</p>'}
+          </section>
+        </div>
+      `;
+
+      wordDetails.hidden = false;
+      wordDetails.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    };
+
+    const getMatchingEntries = (query) => {
+      const normalizedQuery = normalize(query);
+      const part = partFilter.value;
+
+      return dictionary.filter(entry => {
+        const matchesPart = part === 'alle' || entry.partOfSpeech === part;
+        if (!normalizedQuery) {
+          return matchesPart;
+        }
+
+        const haystack = [
+          entry.word,
+          entry.base,
+          entry.pronunciation,
+          entry.theme,
+          ...(entry.definitions ?? []),
+          ...(entry.synonyms ?? []),
+          ...(entry.examples ?? []),
+          ...(entry.tags ?? [])
+        ].filter(Boolean).map(normalize).join(' ');
+
+        return matchesPart && haystack.includes(normalizedQuery);
+      });
+    };
+
+    const renderSuggestions = (query) => {
+      const normalizedQuery = normalize(query);
+      if (!normalizedQuery) {
+        suggestionList.innerHTML = '';
+        return;
+      }
+
+      const suggestions = dictionary
+        .filter(entry => normalize(entry.word).startsWith(normalizedQuery))
+        .slice(0, 6);
+
+      suggestionList.innerHTML = suggestions
+        .map(entry => `<button type="button" data-word="${entry.word}">${entry.word}</button>`)
+        .join('');
+    };
+
+    const highlightWord = (word) => {
+      const card = wordGrid.querySelector(`[data-word="${word}"]`);
+      if (!card) return;
+      card.classList.add('active-card');
+      setTimeout(() => card.classList.remove('active-card'), 1400);
+    };
+
+    const updateActiveTags = (query) => {
+      const tags = [];
+      if (query) tags.push(`Suchbegriff: ${query}`);
+      if (partFilter.value !== 'alle') tags.push(`Wortart: ${partFilter.value}`);
+      activeTags.innerHTML = createChips(tags);
+    };
+
+    const performSearch = () => {
+      const query = searchInput.value.trim();
+      const matches = getMatchingEntries(query);
+      renderWordCards(matches);
+      updateActiveTags(query);
+      renderDetails(matches[0]);
+      if (matches[0]) highlightWord(matches[0].word);
+    };
+
+    const pickRandomEntry = () => {
+      const randomIndex = Math.floor(Math.random() * dictionary.length);
+      return dictionary[randomIndex];
+    };
+
+    const renderWordOfDay = () => {
+      const entry = pickRandomEntry();
+      wordOfDay.innerHTML = `
+        <div style="flex:1;">
+          <strong>${entry.article ? `${entry.article} ` : ''}${entry.word}</strong>
+          <div style="color:var(--text-muted); font-size:0.9rem;">${entry.definitions?.[0] ?? ''}</div>
+        </div>
+        <button class="secondary-btn" type="button" data-word-of-day="${entry.word}">Mehr erfahren</button>
+      `;
+      wordOfDay.dataset.word = entry.word;
+    };
+
+    const initialize = () => {
+      renderTopics();
+      renderWordCards(dictionary);
+      renderDetails(dictionary[0]);
+      updateActiveTags('');
+      renderWordOfDay();
+    };
+
+    suggestionList.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-word]');
+      if (!button) return;
+      searchInput.value = button.dataset.word;
+      performSearch();
+      suggestionList.innerHTML = '';
+    });
+
+    wordGrid.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-word]');
+      if (!target) return;
+      const entry = dictionary.find(item => item.word === target.dataset.word);
+      renderDetails(entry);
+      highlightWord(entry.word);
+    });
+
+    wordGrid.addEventListener('keydown', (event) => {
+      if (event.key !== 'Enter' && event.key !== ' ') return;
+      event.preventDefault();
+      const target = event.target.closest('[data-word]');
+      if (!target) return;
+      const entry = dictionary.find(item => item.word === target.dataset.word);
+      renderDetails(entry);
+      highlightWord(entry.word);
+    });
+
+    wordDetails.addEventListener('click', (event) => {
+      if (event.target.closest('.close-btn')) {
+        renderDetails(null);
+      }
+
+      const wordButton = event.target.closest('button[data-word-of-day]');
+      if (wordButton) {
+        const entry = dictionary.find(item => item.word === wordButton.dataset.wordOfDay);
+        if (entry) {
+          renderDetails(entry);
+          highlightWord(entry.word);
+        }
+      }
+    });
+
+    searchInput.addEventListener('input', (event) => {
+      renderSuggestions(event.target.value);
+    });
+
+    searchInput.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter') {
+        performSearch();
+        suggestionList.innerHTML = '';
+      }
+    });
+
+    searchBtn.addEventListener('click', () => {
+      performSearch();
+      suggestionList.innerHTML = '';
+    });
+
+    partFilter.addEventListener('change', () => {
+      performSearch();
+    });
+
+    surpriseBtn.addEventListener('click', () => {
+      const entry = pickRandomEntry();
+      renderDetails(entry);
+      highlightWord(entry.word);
+      searchInput.value = '';
+      partFilter.value = 'alle';
+      renderWordCards(dictionary);
+      updateActiveTags('');
+      wordDetails.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+
+    wordOfDay.addEventListener('click', (event) => {
+      const button = event.target.closest('button[data-word-of-day]');
+      if (!button) return;
+      const entry = dictionary.find(item => item.word === wordOfDay.dataset.word);
+      if (entry) {
+        renderDetails(entry);
+        highlightWord(entry.word);
+      }
+    });
+
+    initialize();
+  </script>
+</body>
+</html>
